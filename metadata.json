@@ -1,0 +1,7 @@
+{
+  "name": "Nexus CRM - Admin Portal",
+  "description": "Enterprise Grade CRM with AI Insights, Sales tracking, Categories management and Webhook automations.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
