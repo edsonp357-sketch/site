@@ -1,33 +1,20 @@
 import React, { useMemo } from 'react';
 import { 
-  TrendingUp, 
-  Users, 
-  DollarSign, 
-  ArrowDownRight,
-  Activity,
-  Sparkles
+  TrendingUp, Users, DollarSign, ArrowDownRight, Activity, Sparkles 
 } from 'lucide-react';
 import { 
-  AreaChart,
-  Area,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell
 } from 'recharts';
 import { Client, Sale } from '../types';
 import StatCard from '../components/StatCard';
 
 interface DashboardProps {
-  clients?: Client[];
-  sales?: Sale[];
+  clients: Client[];
+  sales: Sale[];
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
+const Dashboard: React.FC<DashboardProps> = ({ clients, sales }) => {
   const chartData = useMemo(() => {
     const statusCounts = {
       Ativo: clients.filter(c => c.status === 'Ativo').length,
@@ -55,8 +42,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
   const churnRate = ((clients.filter(c => c.status === 'Expirado').length / (clients.length || 1)) * 100).toFixed(1);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
-
+    <div className="space-y-8 animate-in fade-in duration-700 p-4">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
@@ -91,7 +77,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Sales Chart */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40 chart-container">
+        <div className="lg:col-span-2 bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Fluxo de Receita</h3>
@@ -101,8 +87,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
               <span className="flex items-center gap-1.5 text-[10px] font-black text-indigo-600 px-3 py-1 bg-indigo-50 rounded-lg">PROJETADO</span>
             </div>
           </div>
-
-          <div className="h-[300px] min-h-[300px] w-full">
+          <div className="h-[300px] w-full min-h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={salesTrend}>
                 <defs>
@@ -127,7 +112,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
         {/* Status Breakdown */}
         <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40">
           <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8">Status da Carteira</h3>
-          <div className="h-[240px] min-h-[240px] w-full">
+          <div className="h-[240px] w-full min-h-[240px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -149,21 +134,10 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="space-y-3 mt-6">
-            {chartData.map((item) => (
-              <div key={item.name} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }}></div>
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.name}</span>
-                </div>
-                <span className="text-xs font-bold text-slate-800">{item.value}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Quick Actions / Recent Activity */}
+      {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
         <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
           <Sparkles className="absolute top-0 right-0 w-32 h-32 text-white/5 -mr-10 -mt-10" />
@@ -181,10 +155,8 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
              </div>
              <span className="font-black text-sm">75%</span>
           </div>
-          <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-4">Faltam R$ 12.400 para bater a meta do trimestre.</p>
         </div>
       </div>
-
     </div>
   );
 };
