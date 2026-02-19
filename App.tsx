@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { supabase } from './supabaseClient';
-import Dashboard from './pages/Dashboard'; // Corrigido para o arquivo existente
+import Dashboard from './pages/Dashboard';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -20,11 +20,10 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} /> {/* Página inicial ajustada */}
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      {/* Adicione outras rotas aqui se precisar */}
+    </Routes>
   );
 };
 
