@@ -8,27 +8,26 @@ import {
   Sparkles
 } from 'lucide-react';
 import { 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell,
   AreaChart,
   Area,
+  CartesianGrid,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
 } from 'recharts';
 import { Client, Sale } from '../types';
 import StatCard from '../components/StatCard';
 
 interface DashboardProps {
-  clients?: Client[]; // Agora é opcional
+  clients?: Client[];
   sales?: Sale[];
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
-  // Protege o chartData para caso clients seja vazio
   const chartData = useMemo(() => {
     const statusCounts = {
       Ativo: clients.filter(c => c.status === 'Ativo').length,
@@ -53,11 +52,11 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
   ];
 
   const totalRevenue = clients.reduce((sum, c) => sum + (c.status === 'Ativo' ? c.value : 0), 0);
-  const activeCount = clients.filter(c => c.status === 'Ativo').length;
   const churnRate = ((clients.filter(c => c.status === 'Expirado').length / (clients.length || 1)) * 100).toFixed(1);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
@@ -102,7 +101,8 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
               <span className="flex items-center gap-1.5 text-[10px] font-black text-indigo-600 px-3 py-1 bg-indigo-50 rounded-lg">PROJETADO</span>
             </div>
           </div>
-          <div className="h-[300px] w-full">
+
+          <div className="h-[300px] min-h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={salesTrend}>
                 <defs>
@@ -127,7 +127,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
         {/* Status Breakdown */}
         <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/40">
           <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-8">Status da Carteira</h3>
-          <div className="h-[240px] w-full">
+          <div className="h-[240px] min-h-[240px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -184,6 +184,7 @@ const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
           <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-4">Faltam R$ 12.400 para bater a meta do trimestre.</p>
         </div>
       </div>
+
     </div>
   );
 };
