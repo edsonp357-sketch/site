@@ -1,40 +1,34 @@
-
 import React, { useMemo } from 'react';
 import { 
   TrendingUp, 
   Users, 
   DollarSign, 
-  Clock, 
-  ArrowUpRight, 
   ArrowDownRight,
   Activity,
   Sparkles
 } from 'lucide-react';
 import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
   ResponsiveContainer, 
   PieChart, 
   Pie, 
   Cell,
-  LineChart,
-  Line,
   AreaChart,
-  Area
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip
 } from 'recharts';
 import { Client, Sale } from '../types';
 import StatCard from '../components/StatCard';
 
 interface DashboardProps {
-  clients: Client[];
-  sales: Sale[];
+  clients?: Client[]; // Agora é opcional
+  sales?: Sale[];
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ clients, sales }) => {
+const Dashboard: React.FC<DashboardProps> = ({ clients = [], sales = [] }) => {
+  // Protege o chartData para caso clients seja vazio
   const chartData = useMemo(() => {
     const statusCounts = {
       Ativo: clients.filter(c => c.status === 'Ativo').length,
